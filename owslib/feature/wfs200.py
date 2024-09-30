@@ -227,6 +227,7 @@ class WebFeatureService_2_0_0(WebFeatureService_):
         featureversion=None,
         propertyname=None,
         maxfeatures=None,
+        srsname=None,
         storedQueryID=None,
         storedQueryParams=None,
         method="Get",
@@ -255,6 +256,8 @@ class WebFeatureService_2_0_0(WebFeatureService_):
             For Post request, leave blank (None) to get all properties.
         maxfeatures : int
             Maximum number of features to be returned.
+        srsname: string
+            EPSG code to request the data in
         storedQueryID : string
             A name identifying a prepared set available in WFS-service
         storedQueryParams : dict
@@ -299,6 +302,7 @@ class WebFeatureService_2_0_0(WebFeatureService_):
                 featureversion,
                 propertyname,
                 maxfeatures,
+                srsname,
                 storedQueryID,
                 storedQueryParams,
                 outputFormat,
