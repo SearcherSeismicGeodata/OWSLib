@@ -53,14 +53,21 @@ def get_schema(
         typename = typename.split(":")[1]
     type_element = root.find("./{%s}element" % XS_NAMESPACE)
     if type_element is None:
-        return None
+        xsd_include = root.find(".//{http://www.w3.org/2001/XMLSchema}include")
+        if xsd_include is not None: 
+            xsd_url = xsd_include.get("schemaLocation")
+            res = openURL(xsd_url)
+            root = etree.fromstring(res.read())
+            type_element = root.find("./{%s}element" % XS_NAMESPACE)
+        else:
+            return None
+
     complex_type = type_element.attrib["type"].split(":")[1]
     elements = _get_elements(complex_type, root)
     nsmap = None
     if hasattr(root, "nsmap"):
         nsmap = root.nsmap
     return _construct_schema(elements, nsmap)
-
 
 def _get_elements(complex_type, root):
     """Get attribute elements
