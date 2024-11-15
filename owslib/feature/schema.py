@@ -54,7 +54,7 @@ def get_schema(
     type_element = root.find("./{%s}element" % XS_NAMESPACE)
     if type_element is None:
         xsd_include = root.find(".//{http://www.w3.org/2001/XMLSchema}include")
-        if xsd_include is not None: 
+        if xsd_include is not None:
             xsd_url = xsd_include.get("schemaLocation")
             res = openURL(xsd_url)
             root = etree.fromstring(res.read())
@@ -131,9 +131,9 @@ def _construct_schema(elements, nsmap):
 
     for element in elements:
         name = None
-        if 'type' in element.attrib:
+        if "type" in element.attrib:
             data_type = element.attrib["type"].replace(gml_key + ":", "")
-        if 'name' in element.attrib:
+        if "name" in element.attrib:
             name = element.attrib["name"]
         non_nillable = element.attrib.get("nillable", "false") == "false"
 
