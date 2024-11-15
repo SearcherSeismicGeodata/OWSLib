@@ -69,6 +69,7 @@ def get_schema(
         nsmap = root.nsmap
     return _construct_schema(elements, nsmap)
 
+
 def _get_elements(complex_type, root):
     """Get attribute elements
     """
