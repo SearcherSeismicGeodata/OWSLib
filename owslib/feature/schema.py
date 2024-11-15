@@ -130,8 +130,11 @@ def _construct_schema(elements, nsmap):
     }
 
     for element in elements:
-        data_type = element.attrib["type"].replace(gml_key + ":", "")
-        name = element.attrib["name"]
+        name = None
+        if 'type' in element.attrib:
+            data_type = element.attrib["type"].replace(gml_key + ":", "")
+        if 'name' in element.attrib:
+            name = element.attrib["name"]
         non_nillable = element.attrib.get("nillable", "false") == "false"
 
         if data_type in mappings:
@@ -139,7 +142,8 @@ def _construct_schema(elements, nsmap):
             schema["geometry_column"] = name
         else:
             if schema_key is not None:
-                schema["properties"][name] = data_type.replace(schema_key + ":", "")
+                if name:
+                    schema["properties"][name] = data_type.replace(schema_key + ":", "")
 
         if non_nillable:
             schema["required"].append(name)
