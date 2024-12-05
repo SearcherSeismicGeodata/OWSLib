@@ -53,7 +53,15 @@ def get_schema(
         typename = typename.split(":")[1]
     type_element = root.find("./{%s}element" % XS_NAMESPACE)
     if type_element is None:
-        return None
+        xsd_include = root.find("./{%s}include" % XS_NAMESPACE)
+        if xsd_include is not None:
+            xsd_url = xsd_include.attrib["schemaLocation"]
+            root = _get_remote_describefeaturetype(url, timeout=timeout,
+                                           headers=headers, auth=auth)
+            type_element = root.find("./{%s}element" % XS_NAMESPACE)
+        else:
+            return None
+
     complex_type = type_element.attrib["type"].split(":")[1]
     elements = _get_elements(complex_type, root)
     nsmap = None
